@@ -83,268 +83,224 @@
 @font-face{font-family:'Montserrat';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/Montserrat-600-normal.woff2) format('woff2')}
 
 :root{
-  /* sala de proyeccion: el negro es el fondo, el cobre es la luz */
-  --ink:#0B0E13;
-  --ink-2:#12171F;
-  --ink-3:#1A212C;
-  --paper:#EFEAE2;
-  --paper-2:#B6B0A6;
-  --dim:#7C8593;
-  --steel:#2E5B88;
-  --steel-lite:#7AA6D2;
+  /* tres salas: vestibulo neutro, sala azul para empresas, sala calida para personas */
+  --room:#0B0E13;
+  --room-2:#141922;
+  --paper:#F2EEE7;
+  --paper-2:#B3ADA3;
+  --paper-3:#857F76;
+  --steel:#7AA6D2;
   --copper:#C59B74;
-  --copper-lite:#E2C7A8;
-  --night:#1A2B4C;
-  --rule:rgba(239,234,226,.13);
-  --rule-strong:rgba(239,234,226,.28);
-  --accent:#EFEAE2;          /* sin modo elegido: neutro */
+  --rule:rgba(242,238,231,.14);
+  --accent:#C59B74;
   --display:"Playfair Display",Georgia,"Times New Roman",serif;
   --text:"Open Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --label:"Montserrat",system-ui,-apple-system,sans-serif;
-  --ease:cubic-bezier(.2,.65,.3,1);
-  --gut:clamp(18px,4vw,56px);
-  --rail:186px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --gut:clamp(22px,5vw,72px);
 }
-body[data-mode="empresas"]{--accent:var(--steel-lite)}
-body[data-mode="personas"]{--accent:var(--copper)}
 
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  margin:0;background:var(--ink);color:var(--paper);
-  font-family:var(--text);font-weight:300;font-size:16px;line-height:1.72;
+  margin:0;background:var(--room);color:var(--paper);
+  font-family:var(--text);font-weight:300;font-size:17px;line-height:1.75;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 p{margin:0}
-h1,h2,h3{margin:0;font-family:var(--display);font-weight:400;line-height:1.06;letter-spacing:-.01em;text-wrap:balance}
+h1,h2,h3{margin:0;font-family:var(--display);font-weight:400;line-height:1.08;letter-spacing:-.012em;text-wrap:balance}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 button,input,select,textarea{font:inherit;color:inherit}
-hr{border:0;border-top:1px solid var(--rule);margin:0}
 
-.label{
-  font-family:var(--label);font-size:.63rem;font-weight:600;
-  letter-spacing:.26em;text-transform:uppercase;color:var(--dim);
+.wrap{width:100%;max-width:1180px;margin:0 auto;padding-inline:var(--gut)}
+.eyebrow{
+  font-family:var(--label);font-size:.66rem;font-weight:600;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--accent);
 }
-.mono-num{font-variant-numeric:tabular-nums}
+.lead{font-size:1.1rem;color:var(--paper-2);max-width:56ch;line-height:1.7}
 
-/* ================= riel de indice + shell ================= */
-.shell{display:grid;grid-template-columns:var(--rail) minmax(0,1fr)}
-.rail{
-  position:sticky;top:0;height:100vh;border-right:1px solid var(--rule);
-  display:flex;flex-direction:column;justify-content:space-between;
-  padding:26px 0 26px var(--gut);background:var(--ink);z-index:30;
+/* ================= barra unica ================= */
+.bar{
+  position:sticky;top:0;z-index:40;background:rgba(11,14,19,.94);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);
 }
-.markword{font-family:var(--display);font-size:1.32rem;line-height:1.1;letter-spacing:.01em}
-.markword b{font-weight:700;display:block}
-.markword span{display:block;font-family:var(--label);font-size:.55rem;font-weight:600;letter-spacing:.3em;color:var(--dim);margin-top:8px}
-.railnav{display:flex;flex-direction:column;gap:2px;margin-right:-1px}
-.railnav a{
-  font-family:var(--label);font-size:.64rem;font-weight:600;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--dim);padding:9px 0;
-  display:flex;align-items:center;gap:10px;transition:color .25s var(--ease);
+.bar__in{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:64px}
+.sign{font-family:var(--display);font-size:1.25rem;letter-spacing:.06em;display:flex;align-items:baseline;gap:.45em}
+.sign b{font-weight:700}
+.sign i{font-style:normal;width:6px;height:6px;background:var(--accent);display:inline-block}
+.nav{display:flex;align-items:center;gap:2px}
+.nav a{
+  font-family:var(--label);font-size:.68rem;font-weight:600;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--paper-3);padding:10px 14px;
+  transition:color .2s var(--ease);
 }
-.railnav a::before{
-  content:"";width:14px;height:1px;background:currentColor;
-  transition:width .3s var(--ease),background .3s var(--ease);flex:none;
-}
-.railnav a:hover{color:var(--paper-2)}
-.railnav a.on{color:var(--paper)}
-.railnav a.on::before{width:30px;background:var(--accent)}
-.railfoot{font-family:var(--label);font-size:.55rem;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
+.nav a:hover{color:var(--paper)}
+.nav a.here{color:var(--paper);box-shadow:inset 0 -2px 0 var(--accent)}
+.nav .cta{background:var(--paper);color:var(--room);padding:12px 20px;margin-left:10px;transition:background .25s var(--ease)}
+.nav .cta:hover{background:var(--accent)}
+.nav .cta.here{box-shadow:none}
 
-.col{min-width:0}
-.pad{padding-inline:var(--gut)}
-.band{padding-block:clamp(56px,8vw,104px);border-top:1px solid var(--rule)}
-.band:first-child{border-top:0}
-.measure{max-width:64ch}
+/* ================= vestibulo ================= */
+.foyer{position:relative;overflow:hidden;border-bottom:1px solid var(--rule)}
+.foyer__bg{position:absolute;inset:0}
+.foyer__bg img{width:100%;height:100%;object-fit:cover;filter:grayscale(.25) brightness(.72) contrast(1.06)}
+/* el degradado solo protege la lectura del titular, no apaga la foto */
+.foyer__bg::after{content:"";position:absolute;inset:0;background:linear-gradient(80deg,rgba(11,14,19,.92) 4%,rgba(11,14,19,.55) 46%,rgba(11,14,19,.18) 100%)}
+.foyer .wrap{position:relative;z-index:1;padding-block:clamp(60px,9vw,120px)}
+.foyer h1{font-size:clamp(2.4rem,6vw,4.4rem);max-width:20ch;margin-top:20px;font-weight:500}
+.foyer h1 em{font-style:italic;font-weight:400;color:var(--copper)}
+.foyer .lead{margin-top:26px}
 
-/* ================= apertura ================= */
-.open{position:relative;min-height:min(88vh,760px);display:flex;align-items:flex-end;overflow:hidden}
-.open__bg{position:absolute;inset:0}
-.open__bg img{width:100%;height:100%;object-fit:cover;filter:grayscale(.35) contrast(1.08) brightness(.55)}
-.open__bg::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(75deg,var(--ink) 8%,rgba(11,14,19,.72) 48%,rgba(26,43,76,.35) 100%);
-}
-.open__in{position:relative;z-index:1;padding:clamp(40px,7vw,86px) var(--gut) clamp(34px,5vw,54px);width:100%}
-.open h1{
-  font-size:clamp(2.3rem,6.2vw,4.5rem);max-width:22ch;margin-top:20px;
-  font-weight:500;
-}
-.open h1 i{font-style:italic;font-weight:400;color:var(--copper-lite)}
-.open__sub{margin-top:26px;max-width:56ch;color:var(--paper-2);font-size:1.03rem}
-
-/* ================= diptico: elegir mundo ================= */
-.diptych{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--rule)}
+/* ================= las dos puertas: solo llevan, no esconden ================= */
+.doors{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border-bottom:1px solid var(--rule)}
 .door{
-  position:relative;padding:clamp(28px,3.6vw,48px) clamp(22px,3vw,40px) clamp(30px,4vw,52px);
-  background:var(--ink);cursor:pointer;text-align:left;border:0;border-left:1px solid var(--rule);
-  display:flex;flex-direction:column;gap:14px;min-height:210px;
-  transition:background .35s var(--ease);color:var(--paper);
+  background:var(--room);padding:clamp(30px,4vw,52px) clamp(24px,3vw,44px);
+  display:flex;flex-direction:column;gap:16px;min-height:230px;
+  transition:background .35s var(--ease);
 }
-.door:first-child{border-left:0}
-.door::after{
-  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
-  background:var(--d);transform:scaleX(0);transform-origin:left;
-  transition:transform .45s var(--ease);
-}
-.door:hover{background:var(--ink-2)}
-.door:hover::after,.door[aria-pressed="true"]::after{transform:scaleX(1)}
-.door--emp{--d:var(--steel-lite)}
+.door:hover{background:var(--room-2)}
+.door--emp{--d:var(--steel)}
 .door--per{--d:var(--copper)}
-.door .label{color:var(--d)}
-.door h2{font-size:clamp(1.3rem,2.3vw,1.85rem);max-width:20ch;font-weight:500}
-.door p{color:var(--paper-2);font-size:.94rem;max-width:40ch}
-.door .go{
-  margin-top:auto;font-family:var(--label);font-size:.63rem;font-weight:600;
+.door .eyebrow{color:var(--d)}
+.door h2{font-size:clamp(1.4rem,2.6vw,2.05rem);max-width:19ch;font-weight:500}
+.door p{color:var(--paper-2);font-size:.98rem;max-width:42ch}
+.door .arrow{
+  margin-top:auto;font-family:var(--label);font-size:.66rem;font-weight:600;
   letter-spacing:.2em;text-transform:uppercase;color:var(--d);
-  display:flex;align-items:center;gap:9px;
+  display:flex;align-items:center;gap:10px;
 }
-.door .go::after{content:"";width:20px;height:1px;background:currentColor;transition:width .3s var(--ease)}
-.door:hover .go::after{width:34px}
+.door .arrow::after{content:"";width:22px;height:1px;background:currentColor;transition:width .3s var(--ease)}
+.door:hover .arrow::after{width:40px}
 
-/* ================= conmutador pegajoso ================= */
-.switch{
-  position:sticky;top:0;z-index:25;background:rgba(11,14,19,.94);
-  backdrop-filter:blur(8px);border-block:1px solid var(--rule);
-  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
-  padding:12px var(--gut);
-}
-.switch .label{color:var(--dim)}
-.segs{display:flex;border:1px solid var(--rule-strong)}
-.seg{
-  background:transparent;border:0;cursor:pointer;padding:10px 18px;min-height:42px;
-  font-family:var(--label);font-size:.63rem;font-weight:600;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--dim);border-left:1px solid var(--rule);
-  transition:color .25s var(--ease),background .25s var(--ease);
-}
-.seg:first-child{border-left:0}
-.seg:hover{color:var(--paper)}
-.seg[aria-pressed="true"]{background:var(--accent);color:var(--ink)}
-.switch__note{font-size:.84rem;color:var(--dim);margin-left:auto}
+/* ================= salas ================= */
+.room{padding-block:clamp(64px,9vw,124px)}
+.room--emp{background:#101B2E;--accent:var(--steel)}
+.room--per{background:#16110D;--accent:var(--copper)}
 
-/* ================= encabezados de seccion ================= */
-.shead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:clamp(20px,4vw,60px);align-items:end;margin-bottom:clamp(28px,4vw,48px)}
-.shead h2{font-size:clamp(1.75rem,3.9vw,3rem);max-width:20ch;font-weight:500}
-.shead p{color:var(--paper-2);font-size:.98rem;max-width:48ch}
+.room__head{max-width:64ch}
+.room__head h2{font-size:clamp(2rem,4.4vw,3.4rem);margin-top:18px;max-width:17ch;font-weight:500}
+.room__head .lead{margin-top:22px}
 
-/* ================= hoja de contactos ================= */
-.sheet{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;background:var(--rule)}
-.shot{position:relative;background:var(--ink-2);overflow:hidden;aspect-ratio:4/5}
-/* el ancho no fija proporcion: se estira a la altura que marcan los sencillos
-   de su fila, y asi la hoja no deja huecos */
-.shot--wide{grid-column:span 2;aspect-ratio:auto}
-.shot img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  filter:saturate(.85) contrast(1.05) brightness(.92);
-  transition:filter .5s var(--ease),transform .8s var(--ease);
+/* banda de imagen del capitulo */
+.banner{position:relative;overflow:hidden;aspect-ratio:21/9;margin-top:clamp(32px,4vw,52px);background:var(--room-2)}
+.banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.92) contrast(1.03)}
+.banner figcaption{
+  position:absolute;left:0;right:0;bottom:0;z-index:2;padding:44px 20px 16px;
+  display:flex;justify-content:space-between;gap:14px;
+  font-family:var(--label);font-size:.62rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:#fff;
+  background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.7));
 }
-.shot:hover img{filter:saturate(1) contrast(1.02) brightness(1);transform:scale(1.03)}
-.shot figcaption{
-  position:absolute;left:0;right:0;bottom:0;z-index:2;
-  padding:26px 10px 9px;display:flex;justify-content:space-between;gap:8px;
-  font-family:var(--label);font-size:.55rem;font-weight:600;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--paper);
-  background:linear-gradient(180deg,rgba(11,14,19,0),rgba(11,14,19,.85));
-}
-.shot figcaption b{color:var(--copper-lite);font-weight:600}
-.shot__folio{
-  position:absolute;top:0;left:0;z-index:2;padding:7px 9px;
-  font-family:var(--label);font-size:.55rem;font-weight:600;letter-spacing:.12em;
-  color:var(--paper);background:rgba(11,14,19,.68);
+.banner figcaption b{color:var(--accent);font-weight:600}
+
+.sub{
+  font-family:var(--label);font-size:.66rem;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--paper-3);
+  margin-top:clamp(44px,6vw,76px);padding-bottom:14px;border-bottom:1px solid var(--rule);
 }
 
-/* ================= servicios: lista editorial, no tarjetas ================= */
-.svc{border-top:1px solid var(--rule)}
-.svc__row{
-  display:grid;grid-template-columns:56px minmax(0,1.05fr) minmax(0,1.25fr) auto;
-  gap:clamp(14px,3vw,40px);align-items:baseline;
-  padding-block:26px;border-bottom:1px solid var(--rule);
-}
-.svc__mark{font-family:var(--label);font-size:.6rem;font-weight:600;letter-spacing:.14em;color:var(--accent);padding-top:6px}
-.svc__row h3{font-family:var(--display);font-size:clamp(1.15rem,2vw,1.55rem);font-weight:500}
-.svc__row p{color:var(--paper-2);font-size:.95rem}
-.svc__spec{
-  font-family:var(--label);font-size:.58rem;font-weight:600;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--dim);white-space:nowrap;
+/* servicios: 2x2 amplio, no lista densa */
+.offer{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,3.4vw,48px);margin-top:clamp(26px,3vw,40px)}
+.offer article{display:grid;gap:9px;align-content:start}
+.offer h3{font-size:clamp(1.15rem,1.9vw,1.45rem);font-weight:500}
+.offer p{color:var(--paper-2);font-size:.98rem;max-width:44ch}
+.offer .spec{font-family:var(--label);font-size:.6rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+
+.sectors{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:26px 0 0}
+.sectors li{
+  font-family:var(--label);font-size:.66rem;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--paper-2);border:1px solid var(--rule);padding:8px 14px;
 }
 
-/* ================= tabla comparativa de paquetes ================= */
-.tablewrap{overflow-x:auto;border:1px solid var(--rule)}
-table.packs{width:100%;border-collapse:collapse;min-width:620px}
-table.packs th,table.packs td{padding:15px 18px;text-align:left;border-bottom:1px solid var(--rule);font-size:.93rem}
+/* tabla de paquetes */
+.tablewrap{overflow-x:auto;margin-top:clamp(26px,3vw,40px);border:1px solid var(--rule)}
+table.packs{width:100%;border-collapse:collapse;min-width:640px}
+table.packs th,table.packs td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--rule);font-size:.96rem}
 table.packs thead th{
-  font-family:var(--label);font-size:.6rem;font-weight:600;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--dim);vertical-align:bottom;background:var(--ink-2);
+  font-family:var(--label);font-size:.62rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--paper-3);vertical-align:bottom;
 }
-table.packs thead th.rec{color:var(--ink);background:var(--accent)}
-table.packs thead th span{display:block;font-family:var(--text);font-size:.72rem;letter-spacing:.04em;text-transform:none;font-weight:400;margin-top:5px;opacity:.75}
-table.packs tbody th{font-weight:400;color:var(--paper);width:42%}
-table.packs td{text-align:center;color:var(--paper-2);font-variant-numeric:tabular-nums}
+table.packs thead th.rec{color:var(--room);background:var(--accent)}
+table.packs thead th span{display:block;font-family:var(--text);font-size:.74rem;letter-spacing:.02em;text-transform:none;font-weight:400;margin-top:5px;opacity:.8}
+table.packs tbody th{font-weight:400;color:var(--paper);width:44%}
+table.packs td{text-align:center;color:var(--paper-3);font-variant-numeric:tabular-nums}
 table.packs td.yes{color:var(--accent);font-weight:600}
-table.packs tbody tr:hover{background:var(--ink-2)}
-table.packs tfoot td{border-bottom:0;text-align:center;padding-top:20px}
+table.packs tbody tr:last-child th,table.packs tbody tr:last-child td{border-bottom:0}
 
-/* ================= editorial / cita ================= */
-.pull{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(26px,5vw,68px);align-items:center}
-.pull q{
-  font-family:var(--display);font-style:italic;font-weight:400;quotes:none;
-  font-size:clamp(1.5rem,3.6vw,2.5rem);line-height:1.26;display:block;
+/* galeria contenida: tres piezas, no doce */
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.6vw,20px);margin-top:clamp(26px,3vw,40px)}
+.three figure{position:relative;margin:0;aspect-ratio:4/5;overflow:hidden;background:var(--room-2)}
+.three img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.three figure:hover img{transform:scale(1.04)}
+.three figcaption{
+  position:absolute;left:0;right:0;bottom:0;z-index:2;padding:34px 14px 12px;
+  font-family:var(--label);font-size:.6rem;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:#fff;
+  background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.78));
 }
-.pull q::before{content:"";display:block;width:44px;height:1px;background:var(--accent);margin-bottom:26px}
 
-/* ================= trayectoria ================= */
-.track{display:grid;gap:0;border-top:1px solid var(--rule)}
-.track__row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:clamp(16px,3vw,40px);padding-block:22px;border-bottom:1px solid var(--rule)}
-.track__row dt{font-family:var(--label);font-size:.63rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
-.track__row dd{margin:0}
-.track__row h3{font-family:var(--text);font-weight:600;font-size:1rem;letter-spacing:0;margin-bottom:4px}
-.track__row p{color:var(--paper-2);font-size:.94rem}
+.close{
+  display:inline-flex;align-items:center;gap:12px;margin-top:clamp(34px,4vw,54px);
+  font-family:var(--label);font-size:.7rem;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--room);background:var(--accent);
+  padding:16px 28px;min-height:48px;transition:filter .25s var(--ease);
+}
+.close:hover{filter:brightness(1.1)}
 
-/* ================= equipo ================= */
-.crew{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,2vw,24px)}
+/* ================= estudio ================= */
+.quote{
+  font-family:var(--display);font-style:italic;font-weight:400;
+  font-size:clamp(1.6rem,3.6vw,2.6rem);line-height:1.28;max-width:19ch;
+}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,68px);align-items:center}
+.split .lead + .lead{margin-top:16px}
+
+.path{margin:clamp(40px,5vw,68px) 0 0;display:grid;gap:0;border-top:1px solid var(--rule)}
+.path > div{display:grid;grid-template-columns:150px minmax(0,1fr);gap:clamp(16px,3vw,40px);padding-block:22px;border-bottom:1px solid var(--rule)}
+.path dt{font-family:var(--label);font-size:.64rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.path dd{margin:0}
+.path h3{font-family:var(--text);font-weight:600;font-size:1.02rem;letter-spacing:0;margin-bottom:3px}
+.path p{color:var(--paper-2);font-size:.96rem}
+
+.crew{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,2vw,24px);margin-top:clamp(26px,3vw,40px)}
 .crew figure{margin:0}
-.crew .ph{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--ink-2);margin-bottom:12px}
-.crew .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06);transition:filter .5s var(--ease)}
-.crew figure:hover .ph img{filter:grayscale(0) contrast(1.02)}
-.crew h3{font-family:var(--text);font-weight:600;font-size:.95rem;letter-spacing:0}
-.crew p{font-family:var(--label);font-size:.58rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-top:5px}
+.crew .box{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--room-2);margin-bottom:12px}
+.crew .box img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);transition:filter .5s var(--ease)}
+.crew figure:hover .box img{filter:grayscale(0)}
+.crew h3{font-family:var(--text);font-weight:600;font-size:.98rem;letter-spacing:0}
+.crew p{font-family:var(--label);font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--paper-3);margin-top:5px}
 
 /* ================= contacto ================= */
-.contact{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(28px,5vw,64px);align-items:start}
-.form{display:grid;gap:16px}
-.f{display:grid;gap:6px}
-.f label{font-family:var(--label);font-size:.58rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.talk{background:var(--room-2);padding-block:clamp(64px,9vw,120px);border-top:1px solid var(--rule)}
+.talk__grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(30px,5vw,68px);align-items:start;margin-top:clamp(30px,4vw,48px)}
+.form{display:grid;gap:18px}
+.f{display:grid;gap:7px}
+.f label{font-family:var(--label);font-size:.6rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-3)}
 .f input,.f select,.f textarea{
-  background:var(--ink-2);border:1px solid var(--rule-strong);color:var(--paper);
-  padding:12px 13px;min-height:44px;font-size:.96rem;font-weight:300;width:100%;
-  transition:border-color .2s var(--ease);
+  background:var(--room);border:1px solid var(--rule);color:var(--paper);
+  padding:13px 14px;min-height:46px;font-size:.98rem;font-weight:300;width:100%;
+  border-radius:0;transition:border-color .2s var(--ease);
 }
 .f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--accent)}
-.f textarea{min-height:112px;resize:vertical;line-height:1.6}
-.f2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f textarea{min-height:118px;resize:vertical;line-height:1.6}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .send{
-  justify-self:start;background:var(--accent);color:var(--ink);border:0;cursor:pointer;
-  font-family:var(--label);font-size:.65rem;font-weight:600;letter-spacing:.18em;
-  text-transform:uppercase;padding:16px 30px;min-height:48px;
-  transition:filter .25s var(--ease);
+  justify-self:start;background:var(--accent);color:var(--room);border:0;cursor:pointer;
+  font-family:var(--label);font-size:.68rem;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;padding:17px 32px;min-height:50px;transition:filter .25s var(--ease);
 }
 .send:hover{filter:brightness(1.12)}
-.hint{font-size:.82rem;color:var(--dim)}
-.said{border-left:2px solid var(--accent);padding:12px 14px;background:var(--ink-2);font-size:.92rem}
-.card{border:1px solid var(--rule);padding:clamp(22px,3vw,32px);display:grid;gap:18px;align-content:start}
-.card dl{margin:0;display:grid;gap:15px}
-.card dt{font-family:var(--label);font-size:.58rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
-.card dd{margin:4px 0 0;font-size:.97rem}
+.hint{font-size:.86rem;color:var(--paper-3)}
+.said{border-left:2px solid var(--accent);padding:13px 15px;background:var(--room);font-size:.94rem}
+.card{border:1px solid var(--rule);padding:clamp(24px,3vw,34px);display:grid;gap:20px;align-content:start}
+.card dl{margin:0;display:grid;gap:16px}
+.card dt{font-family:var(--label);font-size:.6rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-3)}
+.card dd{margin:5px 0 0;font-size:1rem}
 .card a{border-bottom:1px solid var(--accent);padding-bottom:1px}
 
-footer{border-top:1px solid var(--rule);padding:26px var(--gut);display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:.84rem;color:var(--dim)}
-
-/* ================= filtrado por modo ================= */
-body[data-mode="empresas"] [data-unit="personas"],
-body[data-mode="personas"] [data-unit="empresas"]{display:none}
+footer{border-top:1px solid var(--rule);padding:28px var(--gut);display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:.86rem;color:var(--paper-3)}
 
 /* ================= movimiento ================= */
 .rise{transition:opacity .7s var(--ease),transform .7s var(--ease)}
@@ -356,440 +312,312 @@ body.js .rise.wait{opacity:0;transform:translateY(16px)}
   body.js .rise.wait{opacity:1;transform:none}
 }
 
-@media (max-width:1080px){
-  .sheet{grid-template-columns:repeat(3,1fr)}
+@media (max-width:900px){
+  .doors,.offer,.split,.talk__grid{grid-template-columns:1fr}
   .crew{grid-template-columns:repeat(2,1fr)}
-  .svc__row{grid-template-columns:44px minmax(0,1fr);row-gap:8px}
-  .svc__spec{grid-column:2}
-}
-@media (max-width:860px){
-  .shell{grid-template-columns:1fr}
-  .rail{
-    position:sticky;top:0;height:auto;flex-direction:row;align-items:center;
-    border-right:0;border-bottom:1px solid var(--rule);
-    padding:12px var(--gut);gap:16px;
-  }
-  .railnav{flex-direction:row;overflow-x:auto;gap:4px;margin:0 0 0 auto;scrollbar-width:none}
-  .railnav::-webkit-scrollbar{display:none}
-  .railnav a{padding:8px 0;white-space:nowrap}
-  .railnav a::before{display:none}
-  .railnav a.on{box-shadow:inset 0 -2px 0 var(--accent)}
-  .railfoot{display:none}
-  .markword span{display:none}
-  .markword{font-size:1.12rem}
-  .markword b{display:inline}
-  .shead,.pull,.contact,.diptych{grid-template-columns:1fr}
-  .door{border-left:0;border-top:1px solid var(--rule)}
-  .door:first-child{border-top:0}
-  .switch__note{display:none}
+  .nav a:not(.cta){display:none}
+  .banner{aspect-ratio:16/9}
 }
 @media (max-width:560px){
-  .sheet{grid-template-columns:repeat(2,1fr)}
-  .shot--wide{grid-column:span 2;aspect-ratio:16/9}
   .f2{grid-template-columns:1fr}
-  .track__row{grid-template-columns:1fr;gap:6px}
-  .open{min-height:auto}
+  .three{grid-template-columns:1fr}
+  .three figure{aspect-ratio:3/2}
+  .path > div{grid-template-columns:1fr;gap:6px}
+  .banner{aspect-ratio:4/3}
 }
 </style>
 </head>
 <body>
 
-<div class="shell">
-
-  <aside class="rail">
-    <a href="#apertura" class="markword" aria-label="AD Studio, inicio">AD<b>Studio</b><span>Comunicación visual</span></a>
-    <nav class="railnav" id="railnav" aria-label="Secciones">
-      <a href="#trabajo" data-sec="trabajo">Trabajo</a>
-      <a href="#servicios" data-sec="servicios">Servicios</a>
-      <a href="#paquetes" data-sec="paquetes" data-unit="empresas">Paquetes</a>
-      <a href="#estudio" data-sec="estudio">Estudio</a>
-      <a href="#contacto" data-sec="contacto">Contacto</a>
+<header class="bar">
+  <div class="wrap bar__in">
+    <a href="#inicio" class="sign" aria-label="AD Studio, inicio">AD<i></i><b>Studio</b></a>
+    <nav class="nav">
+      <a href="#empresas" data-here="empresas">Empresas</a>
+      <a href="#personas" data-here="personas">Personas</a>
+      <a href="#estudio" data-here="estudio">Estudio</a>
+      <a href="#contacto" class="cta" data-here="contacto">Cotizar</a>
     </nav>
-    <p class="railfoot">15+ años<br>México y destinos</p>
-  </aside>
+  </div>
+</header>
 
-  <div class="col">
+<main id="inicio">
 
-    <!-- ===================== APERTURA ===================== -->
-    <section class="open" id="apertura">
-      <div class="open__bg">
-        <img src="img/reel-cine.jpg" alt="Pareja de novios caminando en un campo abierto al atardecer" decoding="async" fetchpriority="high">
-      </div>
-      <div class="open__in">
-        <p class="label">Firma de comunicación, estrategia y representación visual</p>
-        <h1>Estrategia visual para empresas. <i>Recuerdos de cine para personas.</i></h1>
-        <p class="open__sub">Más de 15 años de trayectoria. Transformamos la imagen de tu negocio o inmortalizamos tus momentos más valiosos.</p>
-      </div>
-    </section>
+<!-- ===================== VESTIBULO ===================== -->
+<section class="foyer">
+  <div class="foyer__bg">
+    <img src="img/reel-cine.jpg" alt="Pareja de novios caminando en un campo abierto al atardecer" decoding="async" fetchpriority="high">
+  </div>
+  <div class="wrap">
+    <p class="eyebrow">Firma de comunicación, estrategia y representación visual</p>
+    <h1>Estrategia visual para empresas. <em>Recuerdos de cine para personas.</em></h1>
+    <p class="lead">Más de 15 años de trayectoria. Transformamos la imagen de tu negocio o inmortalizamos tus momentos más valiosos.</p>
+  </div>
+</section>
 
-    <!-- ===================== DIPTICO ===================== -->
-    <div class="diptych">
-      <button type="button" class="door door--emp" data-go="empresas" aria-pressed="false">
-        <span class="label">Para empresas</span>
-        <h2>Genera confianza comercial y vende más.</h2>
-        <p>Clínicas, restaurantes, industria, hoteles y corporativos. Tu imagen comercial es lo primero que evalúa un cliente.</p>
-        <span class="go">Ver este lado</span>
-      </button>
-      <button type="button" class="door door--per" data-go="personas" aria-pressed="false">
-        <span class="label">Para personas</span>
-        <h2>Conserva tus recuerdos con estética cinematográfica.</h2>
-        <p>Bodas fine art, artistas y bailarines, eventos familiares y marca personal. Narrativa de cine, trato cercano.</p>
-        <span class="go">Ver este lado</span>
-      </button>
+<!-- ===================== LAS DOS PUERTAS ===================== -->
+<div class="doors">
+  <a class="door door--emp" href="#empresas">
+    <span class="eyebrow">Para empresas</span>
+    <h2>Genera confianza comercial y vende más.</h2>
+    <p>Clínicas, restaurantes, industria, hoteles y corporativos. Tu imagen comercial es lo primero que evalúa un cliente.</p>
+    <span class="arrow">Ir a esta sala</span>
+  </a>
+  <a class="door door--per" href="#personas">
+    <span class="eyebrow">Para personas</span>
+    <h2>Conserva tus recuerdos con estética cinematográfica.</h2>
+    <p>Bodas fine art, artistas y bailarines, eventos familiares y marca personal. Narrativa de cine, trato cercano.</p>
+    <span class="arrow">Ir a esta sala</span>
+  </a>
+</div>
+
+<!-- ===================== SALA: EMPRESAS ===================== -->
+<section class="room room--emp" id="empresas">
+  <div class="wrap">
+    <div class="room__head rise">
+      <p class="eyebrow">AD Studio · Empresas</p>
+      <h2>Tu imagen comercial determina la confianza de tus clientes</h2>
+      <p class="lead">Producción visual para negocios que necesitan verse a la altura de lo que ofrecen: instalaciones, equipo, procesos y contenido continuo para redes.</p>
+      <ul class="sectors">
+        <li>Clínicas y salud</li>
+        <li>Restaurantes</li>
+        <li>Industria</li>
+        <li>Hoteles</li>
+        <li>Corporativos</li>
+      </ul>
     </div>
 
-    <!-- ===================== CONMUTADOR ===================== -->
-    <div class="switch">
-      <span class="label">Estás viendo</span>
-      <div class="segs" role="group" aria-label="Elegir unidad de negocio">
-        <button type="button" class="seg" data-mode="todo" aria-pressed="true">Todo</button>
-        <button type="button" class="seg" data-mode="empresas" aria-pressed="false">Empresas</button>
-        <button type="button" class="seg" data-mode="personas" aria-pressed="false">Personas</button>
-      </div>
-      <p class="switch__note" id="switchnote">El sitio completo, las dos unidades.</p>
+    <figure class="banner rise">
+      <img src="img/instalaciones.jpg" alt="Pasillo de oficinas corporativas con muros de cristal" loading="lazy" decoding="async">
+      <figcaption><span>Instalaciones corporativas</span><b>35 mm</b></figcaption>
+    </figure>
+
+    <p class="sub rise">Servicios</p>
+    <div class="offer rise">
+      <article>
+        <h3>Fotografía comercial y de instalaciones</h3>
+        <p>Espacios, equipos y producto con luz controlada y una línea visual consistente en todo el catálogo.</p>
+        <span class="spec">Set de luz · Retoque incluido</span>
+      </article>
+      <article>
+        <h3>Video institucional 4K y recorridos de procesos</h3>
+        <p>La pieza que explica quién eres y cómo trabajas, con recorrido real de tus procesos productivos.</p>
+        <span class="spec">4K · Guion, edición y color</span>
+      </article>
+      <article>
+        <h3>Cobertura con dron</h3>
+        <p>Planos aéreos de planta, terreno y complejo hotelero: la escala que a nivel de piso no se lee.</p>
+        <span class="spec">Vuelo aéreo</span>
+      </article>
+      <article>
+        <h3>Contenido vertical para redes sociales</h3>
+        <p>Reels y cortes 9:16 pensados desde la grabación, no recortados a la fuerza de una pieza horizontal.</p>
+        <span class="spec">9:16 · Reels</span>
+      </article>
     </div>
 
-    <!-- ===================== TRABAJO ===================== -->
-    <section class="band pad" id="trabajo">
-      <div class="shead rise">
-        <h2>Hoja de contactos</h2>
-        <p>Lote recién editado. Cada pieza sale en RGB optimizado para web, sin perder el rango tonal del máster.</p>
-      </div>
-      <div class="sheet rise">
-        <figure class="shot shot--wide" data-unit="personas">
-          <img src="img/galeria-cine.jpg" alt="Novios sentados a la orilla de un lago durante la hora dorada" loading="lazy" decoding="async">
-          <span class="shot__folio mono-num">PER 01</span>
-          <figcaption><span>Ceremonia</span><b>85 mm</b></figcaption>
-        </figure>
-        <figure class="shot" data-unit="personas">
-          <img src="img/personas-hero.jpg" alt="Detalle del vestido y el collar de una novia" loading="lazy" decoding="async">
-          <span class="shot__folio mono-num">PER 02</span>
-          <figcaption><span>Detalle</span><b>Fine art</b></figcaption>
-        </figure>
-        <figure class="shot" data-unit="personas">
-          <img src="img/danza.jpg" alt="Bailarinas de ballet en escena con los brazos en alto" loading="lazy" decoding="async">
-          <span class="shot__folio mono-num">PER 03</span>
-          <figcaption><span>Danza</span><b>Movimiento</b></figcaption>
-        </figure>
-        <figure class="shot" data-unit="empresas">
-          <img src="img/instalaciones.jpg" alt="Pasillo de oficinas corporativas con muros de cristal" loading="lazy" decoding="async">
-          <span class="shot__folio mono-num">EMP 01</span>
-          <figcaption><span>Instalaciones</span><b>35 mm</b></figcaption>
-        </figure>
-        <figure class="shot" data-unit="empresas">
-          <img src="img/empresas-hero.jpg" alt="Consulta médica en una clínica, personal atendiendo a un paciente" loading="lazy" decoding="async">
-          <span class="shot__folio mono-num">EMP 02</span>
-          <figcaption><span>Sector salud</span><b>4K</b></figcaption>
-        </figure>
-        <figure class="shot shot--wide" data-unit="empresas">
-          <img src="img/dron.jpg" alt="Vista aérea con dron de un camino junto a una laguna" loading="lazy" decoding="async">
-          <span class="shot__folio mono-num">EMP 03</span>
-          <figcaption><span>Cobertura aérea</span><b>Dron</b></figcaption>
-        </figure>
-        <figure class="shot" data-unit="personas">
-          <img src="img/preparativos.jpg" alt="Detalle del encaje bordado en la espalda de un vestido de novia" loading="lazy" decoding="async">
-          <span class="shot__folio mono-num">PER 04</span>
-          <figcaption><span>Preparativos</span><b>Luz natural</b></figcaption>
-        </figure>
-        <figure class="shot" data-unit="personas">
-          <img src="img/familia.jpg" alt="Madre abrazando a dos niños pequeños al aire libre" loading="lazy" decoding="async">
-          <span class="shot__folio mono-num">PER 05</span>
-          <figcaption><span>Familia</span><b>Documental</b></figcaption>
-        </figure>
-        <figure class="shot" data-unit="personas">
-          <img src="img/marca-personal.jpg" alt="Retrato de estudio en blanco y negro de una mujer" loading="lazy" decoding="async">
-          <span class="shot__folio mono-num">PER 06</span>
-          <figcaption><span>Marca personal</span><b>Estudio</b></figcaption>
-        </figure>
-        <figure class="shot" data-unit="empresas">
-          <img src="img/movimiento.jpg" alt="Pareja bailando en silueta frente al mar al anochecer" loading="lazy" decoding="async">
-          <span class="shot__folio mono-num">EMP 04</span>
-          <figcaption><span>Vertical 9:16</span><b>Reels</b></figcaption>
-        </figure>
-        <figure class="shot" data-unit="personas">
-          <img src="img/boda-fineart.jpg" alt="Novia sentada en un muelle de madera rodeada de vegetación" loading="lazy" decoding="async">
-          <span class="shot__folio mono-num">PER 07</span>
-          <figcaption><span>Retrato de novia</span><b>50 mm</b></figcaption>
-        </figure>
-        <figure class="shot" data-unit="empresas">
-          <img src="img/estudio.jpg" alt="Fotógrafo con cámara en el estudio de AD Studio" loading="lazy" decoding="async">
-          <span class="shot__folio mono-num">EMP 05</span>
-          <figcaption><span>Producto</span><b>Set de luz</b></figcaption>
-        </figure>
-      </div>
-    </section>
+    <p class="sub rise">Paquetes</p>
+    <div class="tablewrap rise">
+      <table class="packs">
+        <thead>
+          <tr>
+            <th scope="col">Incluye</th>
+            <th scope="col">Esencial<span>Media jornada</span></th>
+            <th scope="col" class="rec">Completo<span>Jornada completa · recomendado</span></th>
+            <th scope="col">Plan mensual<span>Cobertura continua</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Fotografía de instalaciones</th><td class="yes">Sí</td><td class="yes">Sí</td><td class="yes">Sí</td></tr>
+          <tr><th scope="row">Fotografía de equipo de trabajo</th><td class="yes">Sí</td><td class="yes">Sí</td><td class="yes">Sí</td></tr>
+          <tr><th scope="row">Video institucional 4K</th><td>—</td><td class="yes">Sí</td><td class="yes">Sí</td></tr>
+          <tr><th scope="row">Reels verticales</th><td>—</td><td class="yes">3</td><td class="yes">Mensuales</td></tr>
+          <tr><th scope="row">Entrega optimizada para web</th><td class="yes">Sí</td><td class="yes">Sí</td><td class="yes">Sí</td></tr>
+          <tr><th scope="row">Calendario visual mensual</th><td>—</td><td>—</td><td class="yes">Sí</td></tr>
+          <tr><th scope="row">Banco de imagen acumulado</th><td>—</td><td>—</td><td class="yes">Sí</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-    <!-- ===================== SERVICIOS ===================== -->
-    <section class="band pad" id="servicios">
-      <div class="shead rise">
-        <h2>Lo que hacemos</h2>
-        <p>Cada servicio se cotiza por alcance. El conmutador de arriba filtra por unidad de negocio.</p>
-      </div>
+    <a href="#contacto" class="close rise">Solicita una revisión visual gratuita</a>
+  </div>
+</section>
 
-      <div class="svc rise">
-        <div class="svc__row" data-unit="empresas">
-          <span class="svc__mark">EMP</span>
-          <h3>Fotografía comercial y de instalaciones</h3>
-          <p>Espacios, equipos y producto con luz controlada y una línea visual consistente en todo el catálogo.</p>
-          <span class="svc__spec">Set de luz · Retoque</span>
+<!-- ===================== SALA: PERSONAS ===================== -->
+<section class="room room--per" id="personas">
+  <div class="wrap">
+    <div class="room__head rise">
+      <p class="eyebrow">AD Studio · Personas</p>
+      <h2>Recuerdos capturados con emoción y estilo cinematográfico</h2>
+      <p class="lead">Cada cobertura empieza con una conversación: quiénes son, qué momentos les importan y quién no puede faltar en las fotos. De ahí sale la narrativa, no de una lista genérica de tomas.</p>
+    </div>
+
+    <figure class="banner rise">
+      <img src="img/galeria-cine.jpg" alt="Novios sentados a la orilla de un lago durante la hora dorada" loading="lazy" decoding="async">
+      <figcaption><span>Boda · Ceremonia</span><b>85 mm</b></figcaption>
+    </figure>
+
+    <p class="sub rise">Servicios</p>
+    <div class="offer rise">
+      <article>
+        <h3>Bodas Fine Art y Cine</h3>
+        <p>Cobertura emotiva con narrativa cinematográfica, del preparativo al último baile.</p>
+        <span class="spec">Foto y video · Jornada completa</span>
+      </article>
+      <article>
+        <h3>Artistas y Bailarines</h3>
+        <p>Sesiones de estudio o localización enfocadas en movimiento, dinamismo y expresión.</p>
+        <span class="spec">Estudio o locación</span>
+      </article>
+      <article>
+        <h3>Eventos Familiares</h3>
+        <p>Bautizos, aniversarios y celebraciones con calidez humana y sin poses forzadas.</p>
+        <span class="spec">Cobertura por horas</span>
+      </article>
+      <article>
+        <h3>Marca Personal</h3>
+        <p>Retratos ejecutivos y creativos para profesionales que necesitan una imagen propia y actual.</p>
+        <span class="spec">Retrato ejecutivo y creativo</span>
+      </article>
+    </div>
+
+    <p class="sub rise">Trabajo reciente</p>
+    <div class="three rise">
+      <figure>
+        <img src="img/danza.jpg" alt="Bailarinas de ballet en escena con los brazos en alto" loading="lazy" decoding="async">
+        <figcaption>Artistas y bailarines</figcaption>
+      </figure>
+      <figure>
+        <img src="img/preparativos.jpg" alt="Detalle del encaje bordado en la espalda de un vestido de novia" loading="lazy" decoding="async">
+        <figcaption>Preparativos</figcaption>
+      </figure>
+      <figure>
+        <img src="img/familia.jpg" alt="Madre abrazando a dos niños pequeños al aire libre" loading="lazy" decoding="async">
+        <figcaption>Eventos familiares</figcaption>
+      </figure>
+    </div>
+
+    <a href="#contacto" class="close rise">Cotiza tu fecha o reserva tu sesión</a>
+  </div>
+</section>
+
+<!-- ===================== ESTUDIO ===================== -->
+<section class="room" id="estudio">
+  <div class="wrap">
+    <div class="split rise">
+      <p class="quote">No documentamos un evento. Documentamos cómo se sintió.</p>
+      <div>
+        <p class="lead">AD Studio es una firma de comunicación, estrategia y representación visual dirigida por Andrés Dávila. Trabajamos con lenguaje de cine —encuadre, luz, ritmo y color— porque es lo que hace que una imagen se recuerde.</p>
+        <p class="lead">Y trabajamos de cerca, sin intermediarios: hablas con quien va a estar el día de la grabación. La misma exigencia técnica en una planta industrial y en una ceremonia.</p>
+      </div>
+    </div>
+
+    <dl class="path rise">
+      <div><dt>15+ años</dt><dd><h3>Oficio de fotografía</h3><p>Base documental y de retrato que sostiene todo lo demás.</p></dd></div>
+      <div><dt>Video 4K</dt><dd><h3>Producción audiovisual</h3><p>Institucional, recorridos de proceso y narrativa de bodas en formato cine.</p></dd></div>
+      <div><dt>Dron</dt><dd><h3>Cobertura aérea</h3><p>Planos de escala para industria, hotelería y destinos.</p></dd></div>
+      <div><dt>Hoy</dt><dd><h3>Firma con dos unidades</h3><p>AD Studio Empresas y AD Studio Personas, con equipo técnico propio.</p></dd></div>
+    </dl>
+
+    <p class="sub rise">El equipo</p>
+    <div class="crew rise">
+      <figure><div class="box"><img src="img/team-1.jpg" alt="Retrato del equipo: dirección general" loading="lazy" decoding="async"></div><h3>Andrés Dávila</h3><p>Dirección general</p></figure>
+      <figure><div class="box"><img src="img/team-2.jpg" alt="Retrato del equipo: dirección de fotografía" loading="lazy" decoding="async"></div><h3>Dirección de fotografía</h3><p>Luz y cámara</p></figure>
+      <figure><div class="box"><img src="img/team-3.jpg" alt="Retrato del equipo: edición y color" loading="lazy" decoding="async"></div><h3>Edición y color</h3><p>Post-producción</p></figure>
+      <figure><div class="box"><img src="img/team-4.jpg" alt="Retrato del equipo: operación de dron" loading="lazy" decoding="async"></div><h3>Operación de dron</h3><p>Cobertura aérea</p></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACTO ===================== -->
+<section class="talk" id="contacto">
+  <div class="wrap">
+    <p class="eyebrow">Contacto</p>
+    <h2 style="font-size:clamp(2rem,4.4vw,3.2rem);margin-top:16px;max-width:16ch;font-weight:500">Contemos tu historia</h2>
+    <p class="lead" style="margin-top:20px">Respondemos por WhatsApp el mismo día hábil. Deja tus datos y te escribimos nosotros.</p>
+
+    <div class="talk__grid">
+      <form class="form rise" id="cotizador" novalidate>
+        <div class="f2">
+          <div class="f"><label for="b-nombre">Nombre</label><input id="b-nombre" name="nombre" type="text" autocomplete="name"></div>
+          <div class="f"><label for="b-tel">Teléfono</label><input id="b-tel" name="telefono" type="tel" autocomplete="tel" inputmode="tel"></div>
         </div>
-        <div class="svc__row" data-unit="empresas">
-          <span class="svc__mark">EMP</span>
-          <h3>Video institucional y recorridos de procesos</h3>
-          <p>La pieza que explica quién eres y cómo trabajas, con recorrido real de tus procesos productivos.</p>
-          <span class="svc__spec">4K · Guion y color</span>
+        <div class="f2">
+          <div class="f"><label for="b-email">Correo</label><input id="b-email" name="email" type="email" autocomplete="email"></div>
+          <div class="f"><label for="b-fecha">Fecha del evento o rodaje</label><input id="b-fecha" name="fecha" type="date"></div>
         </div>
-        <div class="svc__row" data-unit="empresas">
-          <span class="svc__mark">EMP</span>
-          <h3>Cobertura con dron</h3>
-          <p>Planos aéreos de planta, terreno y complejo hotelero: la escala que a nivel de piso no se lee.</p>
-          <span class="svc__spec">Vuelo aéreo</span>
+        <div class="f">
+          <label for="b-tipo">¿Qué necesitas?</label>
+          <select id="b-tipo" name="tipo">
+            <option>Empresas · Esencial (media jornada)</option>
+            <option>Empresas · Completo (jornada completa)</option>
+            <option>Empresas · Plan mensual</option>
+            <option>Empresas · Revisión visual gratuita</option>
+            <option>Personas · Boda Fine Art y Cine</option>
+            <option>Personas · Artistas y bailarines</option>
+            <option>Personas · Evento familiar</option>
+            <option>Personas · Marca personal</option>
+          </select>
         </div>
-        <div class="svc__row" data-unit="empresas">
-          <span class="svc__mark">EMP</span>
-          <h3>Contenido vertical para redes</h3>
-          <p>Reels y cortes 9:16 pensados desde la grabación, no recortados a la fuerza de una pieza horizontal.</p>
-          <span class="svc__spec">9:16 · Reels</span>
+        <div class="f">
+          <label for="b-msg">Cuéntanos un poco más</label>
+          <textarea id="b-msg" name="mensaje" placeholder="Lugar, número de personas, si necesitas dron o video vertical…"></textarea>
         </div>
-        <div class="svc__row" data-unit="personas">
-          <span class="svc__mark">PER</span>
-          <h3>Bodas Fine Art y Cine</h3>
-          <p>Cobertura emotiva con narrativa cinematográfica, del preparativo al último baile.</p>
-          <span class="svc__spec">Jornada completa</span>
-        </div>
-        <div class="svc__row" data-unit="personas">
-          <span class="svc__mark">PER</span>
-          <h3>Artistas y Bailarines</h3>
-          <p>Sesiones de estudio o localización enfocadas en movimiento, dinamismo y expresión.</p>
-          <span class="svc__spec">Estudio o locación</span>
-        </div>
-        <div class="svc__row" data-unit="personas">
-          <span class="svc__mark">PER</span>
-          <h3>Eventos Familiares</h3>
-          <p>Bautizos, aniversarios y celebraciones con calidez humana y sin poses forzadas.</p>
-          <span class="svc__spec">Por horas</span>
-        </div>
-        <div class="svc__row" data-unit="personas">
-          <span class="svc__mark">PER</span>
-          <h3>Marca Personal</h3>
-          <p>Retratos ejecutivos y creativos para profesionales que necesitan una imagen propia y actual.</p>
-          <span class="svc__spec">Retrato</span>
-        </div>
-      </div>
-    </section>
+        <button type="submit" class="send">Enviar por WhatsApp</button>
+        <p class="hint">Al enviar se abre WhatsApp con tu mensaje ya redactado. El sitio no guarda tus datos.</p>
+        <div id="estado" role="status" aria-live="polite"></div>
+      </form>
 
-    <!-- ===================== PAQUETES (solo empresas) ===================== -->
-    <section class="band pad" id="paquetes" data-unit="empresas">
-      <div class="shead rise">
-        <h2>Paquetes visuales</h2>
-        <p>Tres formatos de contratación según el ritmo que lleve tu negocio. Comparación de alcance, no de precio: cada cotización se ajusta al proyecto.</p>
-      </div>
-      <div class="tablewrap rise">
-        <table class="packs">
-          <caption class="label" style="text-align:left;padding:14px 18px;color:var(--dim)">Alcance por paquete</caption>
-          <thead>
-            <tr>
-              <th scope="col">Incluye</th>
-              <th scope="col">Esencial<span>Media jornada</span></th>
-              <th scope="col" class="rec">Completo<span>Jornada completa · recomendado</span></th>
-              <th scope="col">Plan mensual<span>Cobertura continua</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">Fotografía de instalaciones</th><td class="yes">Sí</td><td class="yes">Sí</td><td class="yes">Sí</td></tr>
-            <tr><th scope="row">Fotografía de equipo de trabajo</th><td class="yes">Sí</td><td class="yes">Sí</td><td class="yes">Sí</td></tr>
-            <tr><th scope="row">Video institucional 4K</th><td>—</td><td class="yes">Sí</td><td class="yes">Sí</td></tr>
-            <tr><th scope="row">Reels verticales</th><td>—</td><td class="yes">3</td><td class="yes">Mensuales</td></tr>
-            <tr><th scope="row">Entrega optimizada para web</th><td class="yes">Sí</td><td class="yes">Sí</td><td class="yes">Sí</td></tr>
-            <tr><th scope="row">Calendario visual mensual</th><td>—</td><td>—</td><td class="yes">Sí</td></tr>
-            <tr><th scope="row">Banco de imagen acumulado</th><td>—</td><td>—</td><td class="yes">Sí</td></tr>
-          </tbody>
-          <tfoot>
-            <tr><td colspan="4"><a href="#contacto" class="label" style="color:var(--accent)">Solicita una revisión visual gratuita para tu negocio</a></td></tr>
-          </tfoot>
-        </table>
-      </div>
-    </section>
+      <aside class="card rise">
+        <p class="eyebrow">AD Studio</p>
+        <dl>
+          <div><dt>WhatsApp Business</dt><dd><a href="https://wa.me/000000000000" id="wa">Escribir ahora</a></dd></div>
+          <div><dt>Correo</dt><dd><a href="mailto:hola@adstudio.mx">hola@adstudio.mx</a></dd></div>
+          <div><dt>Cobertura</dt><dd>Nacional y destinos</dd></div>
+          <div><dt>Respuesta</dt><dd>Mismo día hábil</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </div>
+</section>
 
-    <!-- ===================== ESTUDIO ===================== -->
-    <section class="band pad" id="estudio">
-      <div class="pull rise">
-        <q>No documentamos un evento. Documentamos cómo se sintió.</q>
-        <div>
-          <p class="measure" style="color:var(--paper-2)">AD Studio es una firma de comunicación, estrategia y representación visual dirigida por Andrés Dávila. Trabajamos con lenguaje de cine —encuadre, luz, ritmo y color— porque es lo que hace que una imagen se recuerde.</p>
-          <p class="measure" style="color:var(--paper-2);margin-top:16px">Y trabajamos de cerca, sin intermediarios: hablas con quien va a estar el día de la grabación. La misma exigencia técnica en una planta industrial y en una ceremonia.</p>
-        </div>
-      </div>
+</main>
 
-      <dl class="track rise" style="margin-top:clamp(36px,5vw,64px)">
-        <div class="track__row"><dt>15+ años</dt><dd><h3>Oficio de fotografía</h3><p>Base documental y de retrato que sostiene todo lo demás.</p></dd></div>
-        <div class="track__row"><dt>Video 4K</dt><dd><h3>Producción audiovisual</h3><p>Institucional, recorridos de proceso y narrativa de bodas en formato cine.</p></dd></div>
-        <div class="track__row"><dt>Dron</dt><dd><h3>Cobertura aérea</h3><p>Planos de escala para industria, hotelería y destinos.</p></dd></div>
-        <div class="track__row"><dt>Hoy</dt><dd><h3>Firma con dos unidades</h3><p>AD Studio Empresas y AD Studio Personas, con equipo técnico propio.</p></dd></div>
-      </dl>
-
-      <p class="label rise" style="margin-top:clamp(40px,5vw,62px);margin-bottom:20px">El equipo</p>
-      <div class="crew rise">
-        <figure><div class="ph"><img src="img/team-1.jpg" alt="Retrato del equipo: dirección general" loading="lazy" decoding="async"></div><h3>Andrés Dávila</h3><p>Dirección general</p></figure>
-        <figure><div class="ph"><img src="img/team-2.jpg" alt="Retrato del equipo: dirección de fotografía" loading="lazy" decoding="async"></div><h3>Dirección de fotografía</h3><p>Luz y cámara</p></figure>
-        <figure><div class="ph"><img src="img/team-3.jpg" alt="Retrato del equipo: edición y color" loading="lazy" decoding="async"></div><h3>Edición y color</h3><p>Post-producción</p></figure>
-        <figure><div class="ph"><img src="img/team-4.jpg" alt="Retrato del equipo: operación de dron" loading="lazy" decoding="async"></div><h3>Operación de dron</h3><p>Cobertura aérea</p></figure>
-      </div>
-    </section>
-
-    <!-- ===================== CONTACTO ===================== -->
-    <section class="band pad" id="contacto">
-      <div class="shead rise">
-        <h2>Contemos tu historia</h2>
-        <p>Respondemos por WhatsApp el mismo día hábil. Deja tus datos y te escribimos nosotros.</p>
-      </div>
-
-      <div class="contact">
-        <form class="form rise" id="cotizador" novalidate>
-          <div class="f2">
-            <div class="f"><label for="b-nombre">Nombre</label><input id="b-nombre" name="nombre" type="text" autocomplete="name"></div>
-            <div class="f"><label for="b-tel">Teléfono</label><input id="b-tel" name="telefono" type="tel" autocomplete="tel" inputmode="tel"></div>
-          </div>
-          <div class="f2">
-            <div class="f"><label for="b-email">Correo</label><input id="b-email" name="email" type="email" autocomplete="email"></div>
-            <div class="f"><label for="b-fecha">Fecha del evento o rodaje</label><input id="b-fecha" name="fecha" type="date"></div>
-          </div>
-          <div class="f">
-            <label for="b-tipo">¿Qué necesitas?</label>
-            <select id="b-tipo" name="tipo">
-              <option>Empresas · Esencial (media jornada)</option>
-              <option>Empresas · Completo (jornada completa)</option>
-              <option>Empresas · Plan mensual</option>
-              <option>Empresas · Revisión visual gratuita</option>
-              <option>Personas · Boda Fine Art y Cine</option>
-              <option>Personas · Artistas y bailarines</option>
-              <option>Personas · Evento familiar</option>
-              <option>Personas · Marca personal</option>
-            </select>
-          </div>
-          <div class="f">
-            <label for="b-msg">Cuéntanos un poco más</label>
-            <textarea id="b-msg" name="mensaje" placeholder="Lugar, número de personas, si necesitas dron o video vertical…"></textarea>
-          </div>
-          <button type="submit" class="send">Enviar por WhatsApp</button>
-          <p class="hint">Al enviar se abre WhatsApp con tu mensaje ya redactado. El sitio no guarda tus datos.</p>
-          <div id="estado" role="status" aria-live="polite"></div>
-        </form>
-
-        <aside class="card rise">
-          <p class="label">AD Studio</p>
-          <dl>
-            <div><dt>WhatsApp Business</dt><dd><a href="https://wa.me/000000000000" id="wa">Escribir ahora</a></dd></div>
-            <div><dt>Correo</dt><dd><a href="mailto:hola@adstudio.mx">hola@adstudio.mx</a></dd></div>
-            <div><dt>Cobertura</dt><dd>Nacional y destinos</dd></div>
-            <div><dt>Respuesta</dt><dd>Mismo día hábil</dd></div>
-          </dl>
-        </aside>
-      </div>
-    </section>
-
-    <footer>
-      <span>© <span id="anio">2026</span> AD Studio · Comunicación, estrategia y representación visual</span>
-      <span class="label">Boceto B</span>
-    </footer>
-
-  </div><!-- /col -->
-</div><!-- /shell -->
+<footer>
+  <span>© <span id="anio">2026</span> AD Studio · Comunicación, estrategia y representación visual</span>
+  <span class="eyebrow" style="color:var(--paper-3)">Boceto B</span>
+</footer>
 
 <script>
 (function () {
   /* Reemplazar por el WhatsApp Business de AD Studio: formato internacional sin signos */
   var WA = "000000000000";
 
-  var body = document.body;
-  body.classList.add("js");
+  document.body.classList.add("js");
   document.querySelectorAll(".rise").forEach(function (el) { el.classList.add("wait"); });
 
-  /* ---------- conmutador de unidad de negocio ---------- */
-  var NOTES = {
-    todo: "El sitio completo, las dos unidades.",
-    empresas: "Solo servicios y paquetes para negocios.",
-    personas: "Solo bodas, retrato y eventos."
-  };
-  var segs = document.querySelectorAll(".seg");
-  var doors = document.querySelectorAll(".door");
-  var note = document.getElementById("switchnote");
+  /* ---------- la barra marca la sala en la que estas ---------- */
+  var links = document.querySelectorAll("[data-here]");
+  function mark(id) {
+    links.forEach(function (a) { a.classList.toggle("here", a.getAttribute("data-here") === id); });
+  }
 
-  function setMode(mode, scrollTo) {
-    if (mode === "todo") body.removeAttribute("data-mode");
-    else body.setAttribute("data-mode", mode);
-
-    segs.forEach(function (b) {
-      b.setAttribute("aria-pressed", b.getAttribute("data-mode") === mode ? "true" : "false");
-    });
-    doors.forEach(function (d) {
-      d.setAttribute("aria-pressed", d.getAttribute("data-go") === mode ? "true" : "false");
-    });
-    note.textContent = NOTES[mode];
-
-    // lo que quedo oculto no debe seguir en el orden de tabulacion
-    document.querySelectorAll("[data-unit]").forEach(function (el) {
-      var hidden = el.offsetParent === null && el.offsetWidth === 0;
-      el.querySelectorAll("a,button,input,select,textarea").forEach(function (f) {
-        if (hidden) f.setAttribute("tabindex", "-1");
-        else f.removeAttribute("tabindex");
+  if ("IntersectionObserver" in window) {
+    var hereIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && e.target.id) mark(e.target.id);
       });
-    });
+    }, { rootMargin: "-45% 0px -45% 0px", threshold: 0 });
+    document.querySelectorAll("#empresas,#personas,#estudio,#contacto").forEach(function (s) { hereIO.observe(s); });
 
-    if (scrollTo) {
-      var t = document.getElementById(scrollTo);
-      if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-    reveal();
-  }
-
-  segs.forEach(function (b) {
-    b.addEventListener("click", function () { setMode(b.getAttribute("data-mode")); });
-  });
-  doors.forEach(function (d) {
-    d.addEventListener("click", function () { setMode(d.getAttribute("data-go"), "trabajo"); });
-  });
-
-  /* ---------- riel: marca la seccion visible ---------- */
-  var links = document.querySelectorAll("#railnav a");
-  var sections = [];
-  links.forEach(function (a) {
-    var s = document.getElementById(a.getAttribute("data-sec"));
-    if (s) sections.push({ link: a, el: s });
-  });
-
-  function spy() {
-    var y = window.scrollY + window.innerHeight * 0.32, cur = null;
-    sections.forEach(function (s) {
-      if (s.el.offsetParent !== null && s.el.offsetTop <= y) cur = s;
-    });
-    links.forEach(function (a) { a.classList.remove("on"); });
-    if (cur) cur.link.classList.add("on");
-  }
-
-  var ticking = false;
-  window.addEventListener("scroll", function () {
-    if (ticking) return;
-    ticking = true;
-    window.requestAnimationFrame(function () { spy(); ticking = false; });
-  }, { passive: true });
-
-  /* ---------- entrada de secciones ---------- */
-  var io = null;
-  function reveal() {
-    var items = document.querySelectorAll(".rise.wait");
-    if (!("IntersectionObserver" in window)) {
-      items.forEach(function (el) { el.classList.remove("wait"); });
-      return;
-    }
-    if (!io) {
-      io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) { e.target.classList.remove("wait"); io.unobserve(e.target); }
-        });
-      }, { rootMargin: "0px 0px -6% 0px", threshold: 0.04 });
-    }
-    items.forEach(function (el) { io.observe(el); });
+    var riseIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.remove("wait"); riseIO.unobserve(e.target); }
+      });
+    }, { rootMargin: "0px 0px -6% 0px", threshold: 0.04 });
+    document.querySelectorAll(".rise").forEach(function (el) { riseIO.observe(el); });
+  } else {
+    document.querySelectorAll(".rise").forEach(function (el) { el.classList.remove("wait"); });
   }
 
   /* red de seguridad: nada se queda invisible */
@@ -828,9 +656,6 @@ body.js .rise.wait{opacity:0;transform:translateY(16px)}
 
   document.getElementById("wa").setAttribute("href", "https://wa.me/" + WA);
   document.getElementById("anio").textContent = new Date().getFullYear();
-
-  setMode("todo");
-  spy();
 })();
 </script>
 </body>
